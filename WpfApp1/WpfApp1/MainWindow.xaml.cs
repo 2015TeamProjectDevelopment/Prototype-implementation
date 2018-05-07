@@ -20,9 +20,38 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        NewConfigureFilePage newConfigureFilePage = new NewConfigureFilePage();
+        ConfigureFileListPage ConfigureFileListPage = new ConfigureFileListPage();
+        UpdateSoftwarePage updateSoftwarePage = new UpdateSoftwarePage();
+
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();  
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SoftwareSetting SWSetting = new SoftwareSetting();
+            //在父窗口中间显示
+            SWSetting.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            SWSetting.Owner = this;
+            SWSetting.Title = "基本设置";
+            SWSetting.ShowDialog();
+        }
+
+        private void Button_Page_List(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(ConfigureFileListPage);
+        }
+
+        private void Button_Page_New(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(newConfigureFilePage);
+        }
+
+        private void Button_Page_Update(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(updateSoftwarePage);
         }
     }
 

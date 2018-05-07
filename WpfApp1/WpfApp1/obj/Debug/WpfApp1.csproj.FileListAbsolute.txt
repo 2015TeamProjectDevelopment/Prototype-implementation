@@ -15,3 +15,28 @@ D:\repos\WpfApp1\WpfApp1\obj\Debug\WpfApp1.exe
 D:\repos\WpfApp1\WpfApp1\obj\Debug\WpfApp1.pdb
 D:\repos\WpfApp1\WpfApp1\obj\Debug\Window1.g.cs
 D:\repos\WpfApp1\WpfApp1\obj\Debug\Window1.baml
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\bin\Debug\WpfApp1.exe.config
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\bin\Debug\WpfApp1.exe
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\bin\Debug\WpfApp1.pdb
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\WpfApp1.csprojResolveAssemblyReference.cache
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\MainWindow.g.cs
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\Window1.g.cs
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\App.g.cs
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.cache
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.lref
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\MainWindow.baml
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\Window1.baml
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\WpfApp1.g.resources
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\WpfApp1.Properties.Resources.resources
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\WpfApp1.csproj.GenerateResource.cache
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\WpfApp1.csproj.CoreCompileInputs.cache
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\WpfApp1.exe
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\WpfApp1.pdb
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\softwareSetting.g.cs
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\softwareSetting.baml
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\NewConfigureFilePage.g.cs
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\NewConfigureFilePage.baml
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\ConfigureFileListPage.g.cs
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\UpdateSoftwarePage.g.cs
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\ConfigureFileListPage.baml
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\UpdateSoftwarePage.baml

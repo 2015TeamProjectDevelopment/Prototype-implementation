@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\repos\WpfApp1\WpfApp1\obj\Debug\
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\obj\Debug\
 WpfApp1
 none
 false
 DEBUG;TRACE
-D:\repos\WpfApp1\WpfApp1\App.xaml
-2462529049
+D:\VS code\C#\TeamProject\Prototype-implementation\WpfApp1\WpfApp1\App.xaml
+6-889212728
 
-10-736087861
+141533962052
 131569487696
-MainWindow.xaml;Window1.xaml;
+ConfigureFileListPage.xaml;MainWindow.xaml;NewConfigureFilePage.xaml;SoftwareSetting.xaml;UpdateSoftwarePage.xaml;Window1.xaml;
 
-False
+True
 
