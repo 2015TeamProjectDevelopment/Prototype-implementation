@@ -8,8 +8,20 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="UpdateSoftwarePage">
 
-    <Grid>
-        <Button Content="333" HorizontalAlignment="Left" Margin="215,215,0,0" VerticalAlignment="Top" Width="75"/>
+    <StackPanel>
+        <TextBlock xml:space="preserve" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" 
+               Text="&#x000A;
+               当前软件版本：1.1.1&#x000A;
+               位置：C:\Users\Aurorayqz\Desktop &#x000A;
+               大小：26.0 MB (27,275,825 字节)&#x000A;
+               占用空间：26.0 MB (27,308,032 字节)&#x000A;
+               包含：15 个文件，0 个文件夹&#x000A;
+               配置文件哈希码(MD5码)：eonfwfnoi2e3ron3rnofnefi&#x000A;
+               上次更新时间：2018年4月‎21‎日，‏‎22:57:44" 
+               VerticalAlignment="Top"/>
+        <Button Content="检测更新" HorizontalAlignment="Left" Width="auto" Margin="60,0,0,212" Height="25" VerticalAlignment="Bottom" Click="Button_Click"/>
 
-    </Grid>
+    </StackPanel>
+
+
 </Page>

@@ -14,7 +14,7 @@
                 <MenuItem Header="退出"/>
             </MenuItem>
             <!-- About Menu -->
-            <MenuItem Header="设置">
+            <MenuItem Header="设置" Click="MenuItem_Click_1">
                 <MenuItem Header="关于本产品" Click="MenuItem_Click"/>
             </MenuItem>
         </Menu>

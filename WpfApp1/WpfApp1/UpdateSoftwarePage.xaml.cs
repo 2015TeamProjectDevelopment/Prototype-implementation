@@ -23,6 +23,19 @@ namespace WpfApp1
         public UpdateSoftwarePage()
         {
             InitializeComponent();
+            //CommandBinding bindingNew = new CommandBinding(ApplicationCommands.New);
+            //bindingNew.Executed += NewCommand;
+            //this.CommandBindings.Add(bindingNew);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateUI SWSetting = new UpdateUI();
+            //在父窗口中间显示
+            SWSetting.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            //SWSetting.Owner = this;
+            SWSetting.Title = "软件更新";
+            SWSetting.ShowDialog();
         }
     }
 }

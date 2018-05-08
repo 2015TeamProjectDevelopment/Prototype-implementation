@@ -23,11 +23,30 @@ namespace WpfApp1
         public ConfigureFileListPage()
         {
             InitializeComponent();
+            initList();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+        public void initList()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                
+                listView.Items.Add(new ConfigList( "Name" , "time" + i, "hashcode",true));
+
+            }
+            //listView.DataContext = listBook;  
+        }
+
+        private void BtnInfo_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            //var player = btn.DataContext as Player;
+        }
+
     }
 }
