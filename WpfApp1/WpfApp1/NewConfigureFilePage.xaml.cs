@@ -23,13 +23,20 @@ namespace WpfApp1
         public NewConfigureFilePage()
         {
             InitializeComponent();
-
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Check_All_Checked(object sender, RoutedEventArgs e)
         {
-            
-            
+            CheckBox cb = sender as CheckBox;
+            if (cb.IsChecked == true)
+            {
+                //全部选中
+            }
         }
+    }
+
+    public class UpdateStyle
+    {
+        private String path;
     }
 }
