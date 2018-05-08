@@ -8,28 +8,42 @@
       d:DesignHeight="304" d:DesignWidth="792"
       Title="NewConfigureFile">
 
+    <Page.Resources>
+        <local:methodList  x:Key="StatusList"/>
+    </Page.Resources>
+    
     <Grid>
-        <DataGrid Margin="130,10,125,51"   
-          AutoGenerateColumns="False"   
-          DataContext="{Binding DataContent}"   
-          ItemsSource="{Binding Path=SelectedList,ElementName=this}"  
-          SelectedItem="{Binding SelectedEmployee,Mode=TwoWay}" >
+        <DataGrid x:Name="DataGridForNew" Margin="150,10,150,51"   
+          AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTemplateColumn>
+                <!--<DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <CheckBox x:Name="CheckAll" Content="全选" Click="Check_All_Checked" Width="45" />
+                            <CheckBox x:Name="CheckAll" Click="Check_All_Checked" Width="31" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
+                </DataGridTemplateColumn>-->
+                <DataGridTextColumn Header="文件路径" Binding="{Binding path}" Width="237"/>
+                <DataGridTemplateColumn Header="更新方式" Width="237">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding way}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox Height="22" SelectedItem="{Binding way}" ItemsSource="{StaticResource StatusList}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="文件路径" Binding="{Binding Path}" Width="250"/>
-                <DataGridTextColumn Header="更新方式" Binding="{Binding Way}" Width="250"/>
+
             </DataGrid.Columns>
         </DataGrid>
         <Grid>
-            <Button Name ="btnAdd" Content="新增" HorizontalAlignment="Left" Margin="158,255,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-            <Button Name ="btnRemove" Content="删除" HorizontalAlignment="Left" Margin="356,255,0,0" VerticalAlignment="Top" Width="74" Height="30"/>
+            <Button Name ="btnAdd" Content="新增" HorizontalAlignment="Left" Margin="158,255,0,0" VerticalAlignment="Top" Width="75" Height="30" Click="btnAdd_Click"/>
+            <Button Name ="btnRemove" Content="删除" HorizontalAlignment="Left" Margin="356,255,0,0" VerticalAlignment="Top" Width="74" Height="30" Click="btnRemove_Click"/>
             <Button Name ="btnSave" Content="保存" HorizontalAlignment="Left" Margin="557,255,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="1.513,0.767"/>
         </Grid>
     </Grid>
 </Page>
+    

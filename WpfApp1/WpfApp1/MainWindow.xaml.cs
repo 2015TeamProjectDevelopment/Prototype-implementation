@@ -26,7 +26,8 @@ namespace WpfApp1
 
         public MainWindow()
         {
-            InitializeComponent();  
+            InitializeComponent();
+            MainFrame.Navigate(newConfigureFilePage);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -112,6 +113,11 @@ namespace WpfApp1
         private String lastModified;    //最后修改时间
         private String path;            //路径
 
+        public File()
+        {
+
+        }
+
         //构造函数
         public File(string fileName, string fileSize, string version, string hashcode, string updateMethod, string lastModified, string path)
         {
@@ -158,4 +164,6 @@ namespace WpfApp1
             return hashCode;
         }
     }
+
+       
 }

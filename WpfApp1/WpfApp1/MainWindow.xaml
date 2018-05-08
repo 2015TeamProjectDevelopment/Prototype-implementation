@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    
+    
     <DockPanel x:Name="mainFrame" Width="Auto" Height="Auto" LastChildFill="True">
         <!--Top Menu Area-->
         <Menu Width="Auto" Height="20" Background="LightGray" DockPanel.Dock="Top">
