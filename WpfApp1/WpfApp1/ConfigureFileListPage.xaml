@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ConfigureFileListPage">
-    <ListView x:Name="listView" Width="auto" Height="auto"   ItemsSource="{Binding}" >
+    <ListView x:Name="listView" Width="auto" Height="auto"   ItemsSource="{Binding}" SelectionChanged="listView_SelectionChanged" >
         <ListView.View>
             <GridView>
                 <GridViewColumn Header=" ">
