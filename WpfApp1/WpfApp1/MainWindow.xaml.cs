@@ -53,6 +53,27 @@ namespace WpfApp1
         {
             MainFrame.Navigate(updateSoftwarePage);
         }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+
+    class ConfigList
+    {
+        private string configFileName;
+        private string configFileModificationTime;
+        private string configFileHashCode;
+        private bool isVersion;
+
+        public ConfigList(string configFileName, string configFileModificationTime, string configFileHashCode, bool isVersion)
+        {
+            this.configFileName = configFileName;
+            this.configFileModificationTime = configFileModificationTime;
+            this.configFileHashCode = configFileHashCode;
+            this.isVersion = isVersion;
+        }
     }
 
     //配置文件类

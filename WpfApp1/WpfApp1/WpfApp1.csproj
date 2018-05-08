@@ -66,6 +66,9 @@
     <Compile Include="UpdateSoftwarePage.xaml.cs">
       <DependentUpon>UpdateSoftwarePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UpdateUI.xaml.cs">
+      <DependentUpon>UpdateUI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
@@ -94,6 +97,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UpdateSoftwarePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UpdateUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
