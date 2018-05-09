@@ -45,8 +45,15 @@ namespace WpfApp1
         private void BtnInfo_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
-            //var player = btn.DataContext as Player;
+            ModifyProfile SWSetting = new ModifyProfile();
+            SWSetting.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            SWSetting.Title = "修改配置文件";
+            SWSetting.ShowDialog();
         }
 
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

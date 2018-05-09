@@ -58,6 +58,9 @@
     <Compile Include="ConfigureFileListPage.xaml.cs">
       <DependentUpon>ConfigureFileListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModifyProfile.xaml.cs">
+      <DependentUpon>ModifyProfile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NewConfigureFilePage.xaml.cs">
       <DependentUpon>NewConfigureFilePage.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ModifyProfile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NewConfigureFilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
