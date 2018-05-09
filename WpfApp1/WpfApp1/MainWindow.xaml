@@ -13,11 +13,11 @@
         <Menu Width="Auto" Height="20" Background="LightGray" DockPanel.Dock="Top">
             <!-- File Menu -->
             <MenuItem Header="管理">
-                <MenuItem Header="退出"/>
+                <MenuItem Header="退出" Click="MenuItem_Click_exit"/>
             </MenuItem>
             <!-- About Menu -->
-            <MenuItem Header="设置" Click="MenuItem_Click_1">
-                <MenuItem Header="关于本产品" Click="MenuItem_Click"/>
+            <MenuItem Header="设置" >
+                <MenuItem Header="关于本产品" Click="MenuItem_Click_about_us"/>
             </MenuItem>
         </Menu>
 

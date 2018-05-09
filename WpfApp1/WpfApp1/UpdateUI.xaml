@@ -22,7 +22,7 @@
             包含：110 个文件，37 个文件夹" 
                VerticalAlignment="Top"/>
         <ProgressBar Height="10" Margin="20,0,20,0"/>
-        <Button Content="取消" HorizontalAlignment="Left" Width="auto" Margin="60,30,0,212" Height="25" VerticalAlignment="Bottom" Click="Button_Click" RenderTransformOrigin="0.5,0.513"/>
+        <Button Content="取消" HorizontalAlignment="Left" Width="auto" Margin="60,30,0,212" Height="25" VerticalAlignment="Bottom" Click="Button_Click_cancle" RenderTransformOrigin="0.5,0.513"/>
         
 
     </StackPanel>

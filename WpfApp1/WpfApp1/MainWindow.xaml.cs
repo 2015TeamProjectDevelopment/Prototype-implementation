@@ -30,7 +30,7 @@ namespace WpfApp1
             MainFrame.Navigate(newConfigureFilePage);
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_about_us(object sender, RoutedEventArgs e)
         {
             SoftwareSetting SWSetting = new SoftwareSetting();
             //在父窗口中间显示
@@ -55,9 +55,9 @@ namespace WpfApp1
             MainFrame.Navigate(updateSoftwarePage);
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_exit(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 

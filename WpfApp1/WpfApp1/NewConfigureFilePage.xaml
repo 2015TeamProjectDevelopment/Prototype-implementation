@@ -14,7 +14,7 @@
     
     <Grid>
         <DataGrid x:Name="DataGridForNew" Margin="150,10,150,51"   
-          AutoGenerateColumns="False">
+          AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
                 <!--<DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
@@ -27,12 +27,12 @@
                 <DataGridTemplateColumn Header="更新方式" Width="237">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding way}"/>
+                            <TextBlock Text="{Binding way,Mode=TwoWay}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
-                            <ComboBox Height="22" SelectedItem="{Binding way}" ItemsSource="{StaticResource StatusList}"/>
+                            <ComboBox Height="22" SelectedItem="{Binding way,Mode=TwoWay}" ItemsSource="{StaticResource StatusList}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
@@ -42,7 +42,7 @@
         <Grid>
             <Button Name ="btnAdd" Content="新增" HorizontalAlignment="Left" Margin="158,255,0,0" VerticalAlignment="Top" Width="75" Height="30" Click="btnAdd_Click"/>
             <Button Name ="btnRemove" Content="删除" HorizontalAlignment="Left" Margin="356,255,0,0" VerticalAlignment="Top" Width="74" Height="30" Click="btnRemove_Click"/>
-            <Button Name ="btnSave" Content="保存" HorizontalAlignment="Left" Margin="557,255,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="1.513,0.767"/>
+            <Button Name ="btnSave" Content="保存" HorizontalAlignment="Left" Margin="557,255,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="1.513,0.767" Click="btnSave_Click"/>
         </Grid>
     </Grid>
 </Page>

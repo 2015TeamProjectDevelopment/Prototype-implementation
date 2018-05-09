@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -35,36 +36,62 @@ namespace WpfApp1
     /// </summary>
     public partial class NewConfigureFilePage : Page
     {
-        List<File> configureFile = new List<File>();
+        ObservableCollection<Info> infos = new ObservableCollection<Info>
+            {
+                new Info{path = "C:\\a", way = "新增"},
+                new Info{path = "D:\\b", way = "替换"},
+                new Info{path = "C:\\c", way = "删除"}
+            };
         public NewConfigureFilePage()
         {
             InitializeComponent();
-            //DataContext = new NewConfigureFilePage();
-            List<Info> infos = new List<Info>
-            {
-                new Info{path = "C:\\a", way = ""},
-                new Info{path = "D:\\b", way = ""},
-                new Info{path = "C:\\c", way = ""}
-            };
             DataGridForNew.ItemsSource = infos;
         }
 
-        private void Check_All_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckBox cb = sender as CheckBox;
-            if (cb.IsChecked == true)
-            {
-                //全部选中
-                
-            }
-        }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.InitialDirectory = @"C:\";
+            if (ofd.ShowDialog() == true)
+            {
+                infos.Add(new Info { path = ofd.FileName, way = ""});
+            }
         }
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
+            if(DataGridForNew.SelectedItem != null)
+            {
+                Info DRV = (Info)DataGridForNew.SelectedItem;
+                String name = DRV.path;
+                
+                //删除infos里面的数据
+                for(int i = 0; i < infos.Count; i++)
+                {
+                    if(infos[i].path.CompareTo(name) == 0)
+                    {
+                        infos.Remove(infos[i]);       
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.InitialDirectory = @"C:\";
+            //设置保存的文件的类型
+            sfd.Filter = "INI配置文件|*.ini";
+            if (sfd.ShowDialog() == true)
+            {
+                MessageBox.Show("保存成功");
+            }
+            else
+            {
+                MessageBox.Show("取消保存");
+            }
+
         }
     }
 
