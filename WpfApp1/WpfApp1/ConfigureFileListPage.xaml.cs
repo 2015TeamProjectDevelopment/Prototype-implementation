@@ -49,6 +49,7 @@ namespace WpfApp1
             SWSetting.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             SWSetting.Title = "修改配置文件";
             SWSetting.ShowDialog();
+            
         }
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)

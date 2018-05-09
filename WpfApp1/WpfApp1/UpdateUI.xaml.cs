@@ -25,7 +25,7 @@ namespace WpfApp1
             InitializeComponent();
         }
 
-        private void Button_Click_cancle(object sender, RoutedEventArgs e)
+        private void Button_Click_cancel(object sender, RoutedEventArgs e)
         {
             this.Close();
         }

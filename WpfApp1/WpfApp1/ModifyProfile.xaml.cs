@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +19,71 @@ namespace WpfApp1
     /// <summary>
     /// ModifyProfile.xaml 的交互逻辑
     /// </summary>
+    /// 
+
     public partial class ModifyProfile : Window
     {
+        ObservableCollection<Info> infos = new ObservableCollection<Info>
+            {
+                new Info{path = "C:\\团队开发文件1.txt", way = "新增"},
+                new Info{path = "D:\\团队开发文件2.doc", way = "替换"},
+                new Info{path = "C:\\团队开发文件3.ppt", way = "删除"}
+            };
+
         public ModifyProfile()
         {
             InitializeComponent();
+            DataGridForChange.ItemsSource = infos;
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.InitialDirectory = @"C:\";
+            if (ofd.ShowDialog() == true)
+            {
+                infos.Add(new Info { path = ofd.FileName, way = "" });
+            }
+        }
+
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataGridForChange.SelectedItem != null)
+            {
+                Info DRV = (Info)DataGridForChange.SelectedItem;
+                String name = DRV.path;
+
+                //删除infos里面的数据
+                for (int i = 0; i < infos.Count; i++)
+                {
+                    if (infos[i].path.CompareTo(name) == 0)
+                    {
+                        infos.Remove(infos[i]);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.InitialDirectory = @"C:\";
+            //设置保存的文件的类型
+            sfd.Filter = "INI配置文件|*.ini";
+            if (sfd.ShowDialog() == true)
+            {
+                MessageBox.Show("保存成功");
+            }
+            else
+            {
+                MessageBox.Show("取消保存");
+            }
         }
     }
 }
