@@ -68,7 +68,7 @@ namespace WpfApp1
             }
             else
             {
-                //把URL存入本地文件？
+                //把URL存入本地文件
                 using (FileStream fs = new FileStream(currentPath, FileMode.Create, FileAccess.Write))
                 {
                     using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))

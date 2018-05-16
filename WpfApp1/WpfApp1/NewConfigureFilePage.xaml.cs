@@ -105,10 +105,10 @@ namespace WpfApp1
                             sw.WriteLine(configFiles[i].UpdateMethod);
                             sw.WriteLine(configFiles[i].LastModified);
                             sw.WriteLine(configFiles[i].Path);
-                            sw.WriteLine("");
                         }
                     }
                 }
+                //将文件复制
                 MessageBox.Show("保存成功");
             }
             else
