@@ -71,7 +71,14 @@ namespace WpfApp1
                     Console.WriteLine(e.Message);
                     continue;
                 }
-            }  
+            }
+
+            for (int i = 0; i < 20; i++)
+            {
+                
+               // listView.Items.Add(new ConfigList("111","111","111",true));
+            }
+            //listView.DataContext = listBook;  
         }
 
         private void BtnInfo_Click(object sender, RoutedEventArgs e)

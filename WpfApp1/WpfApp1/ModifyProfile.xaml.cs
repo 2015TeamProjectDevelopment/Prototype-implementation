@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +23,6 @@ namespace WpfApp1
 
     public partial class ModifyProfile : Window
     {
-
         ObservableCollection<Info> infos = new ObservableCollection<Info>
             {
                 new Info{path = "C:\\团队开发文件1.txt", way = "新增"},
@@ -87,33 +85,5 @@ namespace WpfApp1
                 MessageBox.Show("取消保存");
             }
         }
-
-        public void getFileMessage()
-        {
-            string fileDir = Environment.CurrentDirectory;
-            DirectoryInfo fileFold = new DirectoryInfo(fileDir);
-            FileInfo[] files = fileFold.GetFiles(); //获取指定文件夹下的所有文件
-
-            for (int i = 0; files != null && i < files.Length; i++)  //将文件信息添加到List里面  
-            {
-                try
-                {
-                    if (files[i].Extension == ".ini")   //挑选出符合条件的信息  
-                    {
-                        
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    continue;
-                }
-            }
-        }
     }
-
 }

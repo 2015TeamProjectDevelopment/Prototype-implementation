@@ -64,16 +64,37 @@ namespace WpfApp1
     class ConfigList
     {
         private string configFileName;
-        private string configFileModificationTime;
-        private string configFileHashCode;
+        private System.DateTime configFileModificationTime;
+        private int configFileHashCode;
         private bool isVersion;
 
-        public ConfigList(string configFileName, string configFileModificationTime, string configFileHashCode, bool isVersion)
+        public ConfigList(string configFileName, System.DateTime configFileModificationTime, bool isVersion)
         {
             this.configFileName = configFileName;
             this.configFileModificationTime = configFileModificationTime;
-            this.configFileHashCode = configFileHashCode;
+            //this.configFileHashCode = configFileHashCode;
             this.isVersion = isVersion;
+        }
+
+        public string ConfigFileName { get => configFileName; set => configFileName = value; }
+        public System.DateTime ConfigFileModificationTime { get => configFileModificationTime; set => configFileModificationTime = value; }
+        public int ConfigFileHashCode { get => configFileHashCode; set => configFileHashCode = value; }
+        public bool IsVersion { get => isVersion; set => isVersion = value; }
+
+        public override bool Equals(object obj)
+        {
+            var list = obj as ConfigList;
+            return list != null &&
+                   configFileName == list.configFileName &&
+                   configFileModificationTime == list.configFileModificationTime;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -159444910;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(configFileName);
+            hashCode = hashCode * -1521134295 + configFileModificationTime.GetHashCode();
+            return hashCode;
         }
     }
 
