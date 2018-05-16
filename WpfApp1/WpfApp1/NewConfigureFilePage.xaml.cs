@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,9 +39,7 @@ namespace WpfApp1
     {
         ObservableCollection<Info> infos = new ObservableCollection<Info>
             {
-                new Info{path = "C:\\a", way = "新增"},
-                new Info{path = "D:\\b", way = "替换"},
-                new Info{path = "C:\\c", way = "删除"}
+                
             };
         public NewConfigureFilePage()
         {
@@ -79,12 +78,37 @@ namespace WpfApp1
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            List<File> configFiles = new List<File>();
+            for (int i = 0; i < infos.Count; i++)
+            {
+                FileInfo fileInfo = new FileInfo(infos[i].path);
+                File file = new File(fileInfo.Name, fileInfo.Length, infos[i].way, fileInfo.LastWriteTime.ToString(), fileInfo.FullName);
+                configFiles.Add(file);
+            }
+
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.InitialDirectory = @"C:\";
+            string currentPath = System.IO.Directory.GetCurrentDirectory(); ;
+            sfd.InitialDirectory = @currentPath;
             //设置保存的文件的类型
             sfd.Filter = "INI配置文件|*.ini";
             if (sfd.ShowDialog() == true)
             {
+                using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+                    {
+                        for (int i = 0; i < configFiles.Count; i++)
+                        {
+                            sw.WriteLine(configFiles[i].FileName);
+                            sw.WriteLine(configFiles[i].FileSize);
+                            sw.WriteLine(configFiles[i].Hashcode);
+                            sw.WriteLine(configFiles[i].UpdateMethod);
+                            sw.WriteLine(configFiles[i].LastModified);
+                            sw.WriteLine(configFiles[i].Path);
+                            sw.WriteLine("");
+                        }
+                    }
+                }
                 MessageBox.Show("保存成功");
             }
             else

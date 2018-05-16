@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,31 +21,29 @@ namespace WpfApp1
     /// </summary>
     public partial class SoftwareSetting : Window
     {
+        string currentPath = System.IO.Directory.GetCurrentDirectory() + "//url.txt";
         public SoftwareSetting()
         {
             InitializeComponent();
+            InitUrl();
         }
 
-        private void changePathButton_Click(object sender, RoutedEventArgs e)
+        private void InitUrl()
         {
-            //目录选择
-            FolderBrowserDialog m_Dialog = new FolderBrowserDialog();
-            DialogResult result = m_Dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.Cancel)
+            if (!System.IO.Directory.Exists(currentPath))
             {
-                return;
+                this.URLText.Text = "";
             }
-            string m_Dir = m_Dialog.SelectedPath.Trim();
-            this.pathText.Text = m_Dir;
-        }
-
-        private void changeURL_Click(object sender, RoutedEventArgs e)
-        {
-            //检查一下是否合法 
-            if(! CheckUri(this.URLText.Text.Trim()))
+            else
             {
-                System.Windows.MessageBox.Show("URL不合法", "ERROR");
+                StreamReader sr = new StreamReader(currentPath, Encoding.Default);
+                String line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    this.URLText.Text = line;
+                }
             }
+            
         }
 
         public static bool CheckUri(string strUri)
@@ -62,13 +61,30 @@ namespace WpfApp1
 
         private void sureButton_Click(object sender, RoutedEventArgs e)
         {
-            //确定 把路径和URL存入本地文件？
-            this.Close();
+            //检查一下是否合法 
+            if (!CheckUri(this.URLText.Text.Trim()))
+            {
+                System.Windows.MessageBox.Show("URL不合法", "ERROR");
+            }
+            else
+            {
+                //把URL存入本地文件？
+                using (FileStream fs = new FileStream(currentPath, FileMode.Create, FileAccess.Write))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+                    {
+                        sw.WriteLine(this.URLText.Text.Trim());
+                    }
+                }
+                this.Close();
+            }
+            
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
     }
 }

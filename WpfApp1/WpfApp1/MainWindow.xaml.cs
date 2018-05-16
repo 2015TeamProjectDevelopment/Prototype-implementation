@@ -106,9 +106,8 @@ namespace WpfApp1
     class File
     {
         private String fileName;        //文件名
-        private String fileSize;        //文件大小
-        private String version;         //版本号
-        private String hashcode;        //哈希码
+        private long fileSize;          //文件大小
+        private int hashcode;           //哈希码
         private String updateMethod;    //更新操作
         private String lastModified;    //最后修改时间
         private String path;            //路径
@@ -119,21 +118,19 @@ namespace WpfApp1
         }
 
         //构造函数
-        public File(string fileName, string fileSize, string version, string hashcode, string updateMethod, string lastModified, string path)
+        public File(string fileName, long fileSize, string updateMethod, string lastModified, string path)
         {
             this.fileName = fileName;
             this.fileSize = fileSize;
-            this.version = version;
-            this.hashcode = hashcode;
+            this.hashcode = GetHashCode();
             this.updateMethod = updateMethod;
             this.lastModified = lastModified;
             this.path = path;
         }
 
         public string FileName { get => fileName; set => fileName = value; }
-        public string FileSize { get => fileSize; set => fileSize = value; }
-        public string Version { get => version; set => version = value; }
-        public string Hashcode { get => hashcode; set => hashcode = value; }
+        public long FileSize { get => fileSize; set => fileSize = value; }
+        public int Hashcode { get => hashcode; set => hashcode = value; }
         public string UpdateMethod { get => updateMethod; set => updateMethod = value; }
         public string LastModified { get => lastModified; set => lastModified = value; }
         public string Path { get => path; set => path = value; }
@@ -144,7 +141,6 @@ namespace WpfApp1
             return file != null &&
                    fileName == file.fileName &&
                    fileSize == file.fileSize &&
-                   version == file.version &&
                    hashcode == file.hashcode &&
                    updateMethod == file.updateMethod &&
                    lastModified == file.lastModified &&
@@ -155,9 +151,7 @@ namespace WpfApp1
         {
             var hashCode = 2096143202;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(fileName);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(fileSize);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(version);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(hashcode);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(fileSize.ToString());
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(updateMethod);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(lastModified);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(path);
