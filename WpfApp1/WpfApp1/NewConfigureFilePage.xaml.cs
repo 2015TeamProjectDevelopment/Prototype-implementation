@@ -105,7 +105,7 @@ namespace WpfApp1
                             sw.WriteLine(configFiles[i].UpdateMethod);
                             sw.WriteLine(configFiles[i].LastModified);
                             sw.WriteLine(configFiles[i].Path);
-                            sw.WriteLine("");
+                            //sw.WriteLine("");
                         }
                     }
                 }
