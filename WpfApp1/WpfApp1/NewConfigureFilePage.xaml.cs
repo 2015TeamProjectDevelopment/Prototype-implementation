@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,6 +38,9 @@ namespace WpfApp1
     /// </summary>
     public partial class NewConfigureFilePage : Page
     {
+        [DllImport("kernel32")]
+        private static extern long WritePrivateProfileString(
+            string section, string key, string value, string filePath);
         ObservableCollection<Info> infos = new ObservableCollection<Info>
             {
                 
@@ -93,21 +97,15 @@ namespace WpfApp1
             sfd.Filter = "INI配置文件|*.ini";
             if (sfd.ShowDialog() == true)
             {
-                using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
+                for (int i = 0; i < configFiles.Count; i++)
                 {
-                    using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
-                    {
-                        for (int i = 0; i < configFiles.Count; i++)
-                        {
-                            sw.WriteLine(configFiles[i].FileName);
-                            sw.WriteLine(configFiles[i].FileSize);
-                            sw.WriteLine(configFiles[i].Hashcode);
-                            sw.WriteLine(configFiles[i].UpdateMethod);
-                            sw.WriteLine(configFiles[i].LastModified);
-                            sw.WriteLine(configFiles[i].Path);
-                            //sw.WriteLine("");
-                        }
-                    }
+                    File f = configFiles[i];
+                    WritePrivateProfileString("session" + i, "fileName" , f.FileName, sfd.FileName);
+                    WritePrivateProfileString("session" + i, "fileSize", f.FileSize.ToString(), sfd.FileName);
+                    WritePrivateProfileString("session" + i, "hashcode", f.Hashcode.ToString(), sfd.FileName);
+                    WritePrivateProfileString("session" + i, "updateMethod", f.UpdateMethod, sfd.FileName);
+                    WritePrivateProfileString("session" + i, "lastModified", f.LastModified, sfd.FileName);
+                    WritePrivateProfileString("session" + i, "path", f.Path, sfd.FileName);
                 }
                 MessageBox.Show("保存成功");
             }
