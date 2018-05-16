@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,11 +34,38 @@ namespace WpfApp1
 
         public void initList()
         {
+            string fileDir = Environment.CurrentDirectory;
+            DirectoryInfo fileFold = new DirectoryInfo(fileDir);
+            FileInfo[] files = fileFold.GetFiles(); //获取指定文件夹下的所有文件
+
+            for (int i = 0; files != null && i < files.Length; i++)  //将文件信息添加到List里面  
+            {
+                try
+                {
+                    if (files[i].Extension == ".ini")   //挑选出符合条件的信息  
+                    {
+                        //FInfo finfo = new FInfo(files[i].FullName, files[i].Name, files[i].Extension);
+                        //AddFile(finfo);
+                        ConfigList config1 = new ConfigList(files[i].Name, files[i].LastWriteTime, true);
+                        config1.ConfigFileHashCode = config1.GetHashCode();
+                        listView.Items.Add(config1);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
+            }
+
             for (int i = 0; i < 20; i++)
             {
                 
-                listView.Items.Add(new ConfigList( "Name" , "time" + i, "hashcode",true));
-
+               // listView.Items.Add(new ConfigList("111","111","111",true));
             }
             //listView.DataContext = listBook;  
         }
