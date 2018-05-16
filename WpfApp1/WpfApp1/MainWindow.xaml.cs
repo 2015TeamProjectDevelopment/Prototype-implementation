@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 namespace WpfApp1
 {
+
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
