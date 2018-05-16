@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfApp1
 {
@@ -24,12 +25,22 @@ namespace WpfApp1
         public ConfigureFileListPage()
         {
             InitializeComponent();
-            initList();
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
+            //initList();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            listView.Items.Clear();
+            initList();//执行查询
         }
 
         public void initList()
