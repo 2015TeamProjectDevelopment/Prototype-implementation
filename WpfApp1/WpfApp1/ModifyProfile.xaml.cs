@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfApp1
 {
@@ -26,15 +27,13 @@ namespace WpfApp1
     {
         ObservableCollection<Info> infos = new ObservableCollection<Info>
             {
-                new Info{path = "C:\\团队开发文件1.txt", way = "新增"},
-                new Info{path = "D:\\团队开发文件2.doc", way = "替换"},
-                new Info{path = "C:\\团队开发文件3.ppt", way = "删除"}
             };
 
         public ModifyProfile()
         {
             InitializeComponent();
-            DataGridForChange.ItemsSource = infos;
+
+            DataGridForChange.ItemsSource = GetFileMessage();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -87,38 +86,47 @@ namespace WpfApp1
             }
         }
 
-        public void getFileMessage()
+        public ObservableCollection<Info> GetFileMessage()
         {
             string fileDir = Environment.CurrentDirectory;
+     
+            String fileDirResp = Read(fileDir+ "\\fileName.txt");
             DirectoryInfo fileFold = new DirectoryInfo(fileDir);
             FileInfo[] files = fileFold.GetFiles(); //获取指定文件夹下的所有文件
 
             for (int i = 0; files != null && i < files.Length; i++)  //将文件信息添加到List里面  
             {
-                try
+                //fileDirResp = Encoding.UTF8.GetString(Encoding.Default.GetBytes(fileDirResp));
+                if (files[i].Name == fileDirResp)   //挑选出符合条件的信息  
                 {
-                    if (files[i].Name == ".ini")   //挑选出符合条件的信息  
+
+                    IniFiles ini_file_read = new IniFiles(fileDir+"\\"+fileDirResp);
+                    for(int j = 0; j < 10000; j++)
                     {
+                        String tem_path = "session"+j.ToString();
+                        String tem_file_path = ini_file_read.IniReadvalue(tem_path, "path");
+                        String tem_file_updateMethod = ini_file_read.IniReadvalue(tem_path, "updateMethod");
                         
-                        string IniFilePath = Environment.CurrentDirectory + files[i].Name;
-                        ObservableCollection<Info> infos = new ObservableCollection<Info>
+                        if(tem_file_path == "")
                         {
-                            new Info{path = "C:\\团队开发文件1.txt", way = "新增"},
-                            new Info{path = "D:\\团队开发文件2.doc", way = "替换"},
-                            new Info{path = "C:\\团队开发文件3.ppt", way = "删除"}
-                        };
+                            break;
+                        }
+                        infos.Add(new Info { path = tem_file_path, way = tem_file_updateMethod });
                     }
-                    else
-                    {
-                        continue;
-                    }
+                    break;
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    continue;
-                }
+                 
             }
+            return infos;
         }
+
+        public String Read(string path)
+        {
+            StreamReader sr = new StreamReader(path, Encoding.UTF8);
+            String line;
+            line = sr.ReadLine();
+            return line;
+        }
+
     }
 }

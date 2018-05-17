@@ -78,10 +78,12 @@ namespace WpfApp1
         private void BtnInfo_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
+            var player = btn.DataContext as ConfigList;
+            string currentPath = System.IO.Directory.GetCurrentDirectory();
+            Write(currentPath + "\\fileName.txt", player.ConfigFileName);
             ModifyProfile SWSetting = new ModifyProfile();
             SWSetting.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             SWSetting.Title = "修改配置文件";
-            var player = btn.DataContext as ConfigList;
             SWSetting.ShowDialog();
         }
 
@@ -89,5 +91,21 @@ namespace WpfApp1
         {
 
         }
+
+        //保存点击的文件名
+        public void Write(string path, string fileName)
+        {
+            FileStream fs = new FileStream(path, FileMode.Create);
+            StreamWriter sw = new StreamWriter(fs);
+            //开始写入
+            //string str = fileName.Substring(0, fileName.Length - 4) + "." + fileName.Substring(fileName.Length - 3);
+            sw.Write(fileName);
+            //清空缓冲区
+            sw.Flush();
+            //关闭流
+            sw.Close();
+            fs.Close();
+        }
+
     }
 }

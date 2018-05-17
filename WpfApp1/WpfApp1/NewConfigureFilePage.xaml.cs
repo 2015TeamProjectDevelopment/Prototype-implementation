@@ -115,9 +115,9 @@ namespace WpfApp1
                     if (System.IO.File.Exists(f.Path))
                     {
                         System.IO.File.Copy(f.Path, targetPath+"\\"+f.FileName, true);
+                        
                     }
                 }
-                
                 MessageBox.Show("保存成功");
             }
             else
@@ -132,6 +132,8 @@ namespace WpfApp1
             string newPath = System.IO.Path.Combine(path, dirName);
             System.IO.Directory.CreateDirectory(newPath);
         }
+
+        
     }
 
     public class Info
