@@ -115,10 +115,13 @@ namespace WpfApp1
                     if (System.IO.File.Exists(f.Path))
                     {
                         System.IO.File.Copy(f.Path, targetPath+"\\"+f.FileName, true);
+                        
                     }
                 }
+
                 System.IO.File.Copy(sfd.FileName, targetPath + "\\" + sArr[sArr.Length - 1], true);
                 //System.IO.File.Delete(sfd.FileName);
+
                 MessageBox.Show("保存成功");
             }
             else
@@ -133,6 +136,8 @@ namespace WpfApp1
             string newPath = System.IO.Path.Combine(path, dirName);
             System.IO.Directory.CreateDirectory(newPath);
         }
+
+        
     }
 
     public class Info
