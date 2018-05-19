@@ -113,19 +113,22 @@ namespace WpfApp1
         private System.DateTime configFileModificationTime;
         private int configFileHashCode;
         private bool isVersion;
+        private string configFilePath;
 
-        public ConfigList(string configFileName, System.DateTime configFileModificationTime, bool isVersion)
+        public ConfigList(string configFileName, System.DateTime configFileModificationTime, bool isVersion, string configFilePath)
         {
             this.configFileName = configFileName;
             this.configFileModificationTime = configFileModificationTime;
             //this.configFileHashCode = configFileHashCode;
             this.isVersion = isVersion;
+            this.configFilePath = configFilePath;
         }
 
         public string ConfigFileName { get => configFileName; set => configFileName = value; }
         public System.DateTime ConfigFileModificationTime { get => configFileModificationTime; set => configFileModificationTime = value; }
         public int ConfigFileHashCode { get => configFileHashCode; set => configFileHashCode = value; }
         public bool IsVersion { get => isVersion; set => isVersion = value; }
+        public string ConfigFilePath { get => configFilePath; set => configFilePath = value; }
 
         public override bool Equals(object obj)
         {

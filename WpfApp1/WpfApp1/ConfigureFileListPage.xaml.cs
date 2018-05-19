@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace WpfApp1
@@ -57,7 +48,7 @@ namespace WpfApp1
                     {
                         //FInfo finfo = new FInfo(files[i].FullName, files[i].Name, files[i].Extension);
                         //AddFile(finfo);
-                        ConfigList config1 = new ConfigList(files[i].Name, files[i].LastWriteTime, true);
+                        ConfigList config1 = new ConfigList(files[i].Name, files[i].LastWriteTime, true, fileDir + "\\"+ files[i].Name);
                         config1.ConfigFileHashCode = config1.GetHashCode();
                         listView.Items.Add(config1);
                     }
@@ -87,9 +78,43 @@ namespace WpfApp1
             SWSetting.ShowDialog();
         }
 
-        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
+            // dir 当前路径 fileName 选中那一列的文件名 
+            // versionFloder 保存配置文件夹的路径 
+            //subDirName 对应配置文件生成的目录 subVersionPath 该路径，保存配置文件、复制过去的文件
 
+            var btn = sender as Button;
+            var player = btn.DataContext as ConfigList;
+            string dir = System.IO.Directory.GetCurrentDirectory();
+            Write(dir + "\\fileName.txt", player.ConfigFileName);
+            string fileName = player.ConfigFileName;
+            //判断文件夹是否存在，文件夹设置在哪里比较合适呢？
+            string versionFloder = System.IO.Path.Combine(dir, "versionFloder");
+            if (!System.IO.Directory.Exists(versionFloder))
+            {
+                System.IO.Directory.CreateDirectory(versionFloder);
+            }
+            //子文件夹 对应每个配置文件
+            string subDirName = fileName.Replace('.', '_');
+            string subVersionPath = System.IO.Path.Combine(versionFloder, subDirName);
+            System.IO.Directory.CreateDirectory(subVersionPath);
+
+            //复制配置文件到对应的子文件夹下
+            System.IO.File.Copy(player.ConfigFilePath, subVersionPath + "\\" + fileName, true);
+
+            //复制配置文件的内容到该文件下
+            ObservableCollection<Info> infos = new ModifyProfile().GetFileMessage();
+            for (int i = 0; i < infos.Count; i++)
+            {
+                if (System.IO.File.Exists(infos[i].path))
+                {
+                    string[] strArr = infos[i].path.Split('\\');
+                    int length = strArr.Length - 1;
+                    System.IO.File.Copy(infos[i].path, subVersionPath + "\\" + strArr[length], true);
+                }
+            }
+            MessageBox.Show("生成版本成功");
         }
 
         //保存点击的文件名

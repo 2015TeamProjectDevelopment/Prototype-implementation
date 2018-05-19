@@ -97,12 +97,6 @@ namespace WpfApp1
             sfd.Filter = "INI配置文件|*.ini";
             if (sfd.ShowDialog() == true)
             {
-                //创建文件夹 保存ini以及各个文件
-                string[] sArr = sfd.FileName.Split('\\');
-                string dirName = sArr[sArr.Length - 1].Replace('.', '_');
-                createAndcopy(currentPath,dirName);
-                string targetPath = currentPath + "\\" + dirName;
-
                 for (int i = 0; i < configFiles.Count; i++)
                 {
                     File f = configFiles[i];
@@ -112,16 +106,7 @@ namespace WpfApp1
                     WritePrivateProfileString("session" + i, "updateMethod", f.UpdateMethod, sfd.FileName);
                     WritePrivateProfileString("session" + i, "lastModified", f.LastModified, sfd.FileName);
                     WritePrivateProfileString("session" + i, "path", f.Path, sfd.FileName);
-                    if (System.IO.File.Exists(f.Path))
-                    {
-                        System.IO.File.Copy(f.Path, targetPath+"\\"+f.FileName, true);
-                        
-                    }
                 }
-
-                System.IO.File.Copy(sfd.FileName, targetPath + "\\" + sArr[sArr.Length - 1], true);
-                //System.IO.File.Delete(sfd.FileName);
-
                 MessageBox.Show("保存成功");
             }
             else
@@ -129,15 +114,7 @@ namespace WpfApp1
                 MessageBox.Show("取消保存");
             }
 
-        }
-
-        private void createAndcopy(string path, string dirName)
-        {
-            string newPath = System.IO.Path.Combine(path, dirName);
-            System.IO.Directory.CreateDirectory(newPath);
-        }
-
-        
+        }        
     }
 
     public class Info

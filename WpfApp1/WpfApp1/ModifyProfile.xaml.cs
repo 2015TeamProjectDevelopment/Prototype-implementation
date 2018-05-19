@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +26,10 @@ namespace WpfApp1
 
     public partial class ModifyProfile : Window
     {
+        [DllImport("kernel32")]
+        private static extern long WritePrivateProfileString(
+    string section, string key, string value, string filePath);
+
         ObservableCollection<Info> infos = new ObservableCollection<Info>
             {
             };
@@ -73,11 +78,30 @@ namespace WpfApp1
         private void btnSaveAs_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.InitialDirectory = @"C:\";
+            string currentPath = System.IO.Directory.GetCurrentDirectory();
+            sfd.InitialDirectory = @currentPath;
             //设置保存的文件的类型
             sfd.Filter = "INI配置文件|*.ini";
             if (sfd.ShowDialog() == true)
             {
+                List<File> configFiles = new List<File>();
+                for (int i = 0; i < infos.Count; i++)
+                {
+                    FileInfo fileInfo = new FileInfo(infos[i].path);
+                    File file = new File(fileInfo.Name, fileInfo.Length, infos[i].way, fileInfo.LastWriteTime.ToString(), fileInfo.FullName);
+                    configFiles.Add(file);
+                }
+
+                for (int i = 0; i < configFiles.Count; i++)
+                {
+                    File f = configFiles[i];
+                    WritePrivateProfileString("session" + i, "fileName", f.FileName, sfd.FileName);
+                    WritePrivateProfileString("session" + i, "fileSize", f.FileSize.ToString(), sfd.FileName);
+                    WritePrivateProfileString("session" + i, "hashcode", f.Hashcode.ToString(), sfd.FileName);
+                    WritePrivateProfileString("session" + i, "updateMethod", f.UpdateMethod, sfd.FileName);
+                    WritePrivateProfileString("session" + i, "lastModified", f.LastModified, sfd.FileName);
+                    WritePrivateProfileString("session" + i, "path", f.Path, sfd.FileName);
+                }
                 MessageBox.Show("保存成功");
             }
             else
@@ -88,12 +112,13 @@ namespace WpfApp1
 
         public ObservableCollection<Info> GetFileMessage()
         {
+            infos.Clear();
             string fileDir = Environment.CurrentDirectory;
      
             String fileDirResp = Read(fileDir+ "\\fileName.txt");
             DirectoryInfo fileFold = new DirectoryInfo(fileDir);
             FileInfo[] files = fileFold.GetFiles(); //获取指定文件夹下的所有文件
-
+            this.FileNameText.Text = fileDirResp;
             for (int i = 0; files != null && i < files.Length; i++)  //将文件信息添加到List里面  
             {
                 //fileDirResp = Encoding.UTF8.GetString(Encoding.Default.GetBytes(fileDirResp));

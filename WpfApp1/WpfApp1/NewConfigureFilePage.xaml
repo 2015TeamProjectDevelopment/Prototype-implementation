@@ -16,13 +16,6 @@
         <DataGrid x:Name="DataGridForNew" Margin="150,10,150,51"   
           AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <!--<DataGridTemplateColumn>
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <CheckBox x:Name="CheckAll" Click="Check_All_Checked" Width="31" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                </DataGridTemplateColumn>-->
                 <DataGridTextColumn Header="文件路径" Binding="{Binding path}" Width="237"/>
                 <DataGridTemplateColumn Header="更新方式" Width="237">
                     <DataGridTemplateColumn.CellTemplate>

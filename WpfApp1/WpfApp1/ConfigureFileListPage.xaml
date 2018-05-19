@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ConfigureFileListPage">
 
-    <ListView x:Name="listView" Width="auto" Height="auto"   ItemsSource="{Binding}" SelectionChanged="listView_SelectionChanged"  ItemContainerStyle="{StaticResource ListViewItemStyle}">
+    <ListView x:Name="listView" Width="auto" Height="auto"   ItemsSource="{Binding}" ItemContainerStyle="{StaticResource ListViewItemStyle}">
         <ListView.View>
             <GridView>
                 <GridViewColumn Header=" ">
@@ -22,6 +22,13 @@
                 <GridViewColumn Header="修改时间" Width="180" DisplayMemberBinding="{Binding ConfigFileModificationTime}"/>
                 <GridViewColumn Header="配置文件哈希码" Width="120" DisplayMemberBinding="{Binding ConfigFileHashCode}"/>
                 <GridViewColumn Header="目前所在版本" Width="120" DisplayMemberBinding="{Binding IsVersion}"/>
+                <GridViewColumn Header=" ">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Width="50" Content="生成版本" Click="BtnCreate_Click" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
                
 
             </GridView>
