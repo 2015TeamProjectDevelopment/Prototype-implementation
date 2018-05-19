@@ -117,7 +117,8 @@ namespace WpfApp1
                         System.IO.File.Copy(f.Path, targetPath+"\\"+f.FileName, true);
                     }
                 }
-                
+                System.IO.File.Copy(sfd.FileName, targetPath + "\\" + sArr[sArr.Length - 1], true);
+                //System.IO.File.Delete(sfd.FileName);
                 MessageBox.Show("保存成功");
             }
             else

@@ -30,7 +30,7 @@ namespace WpfApp1
 
         private void InitUrl()
         {
-            if (!System.IO.Directory.Exists(currentPath))
+            if (!System.IO.File.Exists(currentPath))
             {
                 this.URLText.Text = "";
             }
