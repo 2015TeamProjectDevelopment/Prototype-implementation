@@ -39,7 +39,7 @@ namespace WpfApp1
             string fileDir = Environment.CurrentDirectory;
             DirectoryInfo fileFold = new DirectoryInfo(fileDir);
             FileInfo[] files = fileFold.GetFiles(); //获取指定文件夹下的所有文件
-
+            List<ConfigList> config2 = new List<ConfigList>();
             for (int i = 0; files != null && i < files.Length; i++)  //将文件信息添加到List里面  
             {
                 try
@@ -48,9 +48,10 @@ namespace WpfApp1
                     {
                         //FInfo finfo = new FInfo(files[i].FullName, files[i].Name, files[i].Extension);
                         //AddFile(finfo);
-                        ConfigList config1 = new ConfigList(files[i].Name, files[i].LastWriteTime, true, fileDir + "\\"+ files[i].Name);
+                        ConfigList config1 = new ConfigList(files[i].Name, files[i].LastWriteTime, false, fileDir + "\\"+ files[i].Name);
                         config1.ConfigFileHashCode = config1.GetHashCode();
-                        listView.Items.Add(config1);
+
+                        config2.Add(config1);
                     }
                     else
                     {
@@ -63,7 +64,20 @@ namespace WpfApp1
                     continue;
                 }
             }
-
+            //按修改时间排序
+            config2.Sort((x, y) => { return y.ConfigFileModificationTime.CompareTo(x.ConfigFileModificationTime); });
+            bool tem_i = true;
+            foreach (var tem_config in config2)
+            {
+                if (tem_i)
+                {
+                    tem_config.IsVersion = true;
+                    listView.Items.Add(tem_config);
+                    tem_i = false;
+                    continue;
+                }
+                listView.Items.Add(tem_config);
+            }
         }
 
         private void BtnInfo_Click(object sender, RoutedEventArgs e)
