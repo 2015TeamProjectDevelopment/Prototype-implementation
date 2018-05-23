@@ -21,7 +21,8 @@ namespace WpfApp1
     /// </summary>
     public partial class SoftwareSetting : Window
     {
-        string currentPath = System.IO.Directory.GetCurrentDirectory() + "//url.txt";
+        string currentPath = System.IO.Directory.GetCurrentDirectory();
+        string UrlPath = System.IO.Directory.GetCurrentDirectory() + "//url.txt";
         public SoftwareSetting()
         {
             InitializeComponent();
@@ -30,13 +31,20 @@ namespace WpfApp1
 
         private void InitUrl()
         {
-            if (!System.IO.File.Exists(currentPath))
+            if (!System.IO.File.Exists(UrlPath))
             {
-                this.URLText.Text = "";
+                this.URLText.Text = currentPath;
+                using (FileStream fs = new FileStream(UrlPath, FileMode.Create, FileAccess.Write))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+                    {
+                        sw.WriteLine(this.URLText.Text.Trim());
+                    }
+                }
             }
             else
             {
-                StreamReader sr = new StreamReader(currentPath, Encoding.Default);
+                StreamReader sr = new StreamReader(UrlPath, Encoding.Default);
                 String line;
                 while ((line = sr.ReadLine()) != null)
                 {
@@ -79,7 +87,7 @@ namespace WpfApp1
             else
             {
                 //把URL存入本地文件？
-                using (FileStream fs = new FileStream(currentPath, FileMode.Create, FileAccess.Write))
+                using (FileStream fs = new FileStream(UrlPath, FileMode.Create, FileAccess.Write))
                 {
                     using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
                     {

@@ -31,9 +31,26 @@ namespace WpfApp1
         {
             InitializeComponent();
             initTestFile();
+            setUrltxt();
             MainFrame.Navigate(newConfigureFilePage);
         }
         
+        private void setUrltxt()
+        {
+            string currentPath = System.IO.Directory.GetCurrentDirectory();
+            string UrlPath = System.IO.Directory.GetCurrentDirectory() + "//url.txt";
+            if (!System.IO.File.Exists(UrlPath))
+            {
+                using (FileStream fs = new FileStream(UrlPath, FileMode.Create, FileAccess.Write))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+                    {
+                        sw.WriteLine("file://" + currentPath);
+                    }
+                }
+            }
+        }
+
         public void initTestFile()
         {
             string currentdir = System.IO.Directory.GetCurrentDirectory();

@@ -70,6 +70,7 @@ namespace WpfApp1
 
             string subFolderName = cfServer.ConfigFileName.Replace('.', '_'); //文件夹名字
             string srcPath = System.IO.Path.Combine(current + "//versionFolder", subFolderName);  //源文件夹
+            Console.WriteLine(srcPath);
             if (!System.IO.Directory.Exists(srcPath))
             {
                 MessageBox.Show("源文件夹不存在", "ERROR");
