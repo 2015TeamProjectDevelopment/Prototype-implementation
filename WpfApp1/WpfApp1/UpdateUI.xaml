@@ -9,7 +9,6 @@
     <StackPanel x:Name="probar">
         <TextBlock xml:space="preserve" x:Name="textblock" HorizontalAlignment="Left" Margin="60,20,20,20" TextWrapping="Wrap" 
                VerticalAlignment="Top"/>
-        <ProgressBar Height="10" Margin="20,0,20,0"/>
         <Button x:Name="cancel" Content="取消" HorizontalAlignment="Left" Width="auto" Margin="60,60,0,212" Height="25" VerticalAlignment="Bottom" Click="Button_Click_cancel" RenderTransformOrigin="0.5,0.513"/>
         
 

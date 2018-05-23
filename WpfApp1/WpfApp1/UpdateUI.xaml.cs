@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,7 +25,8 @@ namespace WpfApp1
         private ConfigList cfPC;
         private ConfigList cfServer;
         private string downloadPath;
-
+        string current = System.IO.Directory.GetCurrentDirectory();
+        
         public UpdateUI(ConfigList cfPC, ConfigList cfServer)
         {
             InitializeComponent();
@@ -32,6 +34,7 @@ namespace WpfApp1
             this.cfServer = cfServer;
             showDiff();
             doUpdate();
+
         }
 
         //显示版本差异
@@ -56,8 +59,15 @@ namespace WpfApp1
         //执行更新操作
         private void download()
         {
-            //下载的 源文件夹 和 下载后的本地文件夹名字
-            string current = System.IO.Directory.GetCurrentDirectory();
+            //下载的 源文件夹 url 和 下载后的本地文件夹名字
+            StreamReader sr = new StreamReader(current+"//url.txt", Encoding.Default);
+            String line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                Uri uriAddress = new Uri(line);
+                current = uriAddress.LocalPath;
+            }
+
             string subFolderName = cfServer.ConfigFileName.Replace('.', '_'); //文件夹名字
             string srcPath = System.IO.Path.Combine(current + "//versionFolder", subFolderName);  //源文件夹
             if (!System.IO.Directory.Exists(srcPath))
@@ -65,7 +75,8 @@ namespace WpfApp1
                 MessageBox.Show("源文件夹不存在", "ERROR");
                 return;
             }
-            string destPath = System.IO.Path.Combine(current + "//PC", subFolderName); // 目标文件夹
+            string PcPath = current + "\\PC";
+            string destPath = System.IO.Path.Combine(PcPath, subFolderName); // 目标文件夹
             downloadPath = destPath;
             if (!System.IO.Directory.Exists(destPath))
             {
@@ -98,28 +109,35 @@ namespace WpfApp1
                         System.IO.File.Copy(i.FullName, destPath + "\\" + i.Name, true);      //不是文件夹即复制文件，true表示可以覆盖同名文件
                     }
                 }
+
             }
             catch (Exception e)
             {
                 throw;
             }
+
+
         }
 
+        //更新操作
         private void doUpdate()
         {
             download();
             //读取配置文件并进行操作
             DirectoryInfo fileFold = new DirectoryInfo(downloadPath);
             FileInfo[] files = fileFold.GetFiles();
+            string PcPath = current + "\\PC";
+            string IniName = "";
             for (int i = 0; files != null && i < files.Length; i++)  //将文件信息添加到List里面  
             {
                 if (files[i].Extension == ".ini")   //挑选出符合条件的信息  
                 {
+                    IniName = files[i].Name;
                     IniFiles ini_file_read = new IniFiles(downloadPath + "\\" + files[i].Name);
                     for (int j = 0; j < 10000; j++)
                     {
                         String tem_path = "session" + j.ToString();
-                        String tem_file_name = ini_file_read.IniReadvalue(tem_path, "name");
+                        String tem_file_name = ini_file_read.IniReadvalue(tem_path, "fileName");
                         String tem_file_updateMethod = ini_file_read.IniReadvalue(tem_path, "updateMethod");
                         if (tem_file_updateMethod == "")
                         {
@@ -127,19 +145,42 @@ namespace WpfApp1
                         }
                         else if(tem_file_updateMethod == "新增")
                         {
-
-                        }else if (tem_file_updateMethod == "删除")
+                            System.IO.File.Copy(downloadPath + "\\" + tem_file_name,
+                                PcPath + "\\" + tem_file_name, true);
+                        }
+                        else if (tem_file_updateMethod == "删除")
                         {
-
-                        }else if (tem_file_updateMethod == "替换")
+                            System.IO.File.Delete(PcPath + "\\" + tem_file_name);
+                        }
+                        else if (tem_file_updateMethod == "替换")
                         {
-
+                            //先删除后复制
+                            System.IO.File.Delete(PcPath + "\\" + tem_file_name);
+                            System.IO.File.Copy(downloadPath + "\\" + tem_file_name,
+                                PcPath + "\\" + tem_file_name, true);
                         }
                     }
                     break;
                 }
-
             }
+
+            //更新PC的ini
+            DirectoryInfo Fold = new DirectoryInfo(PcPath);
+            FileInfo[] fs = Fold.GetFiles();
+            for (int i = 0; fs != null && i < fs.Length; i++)  //将文件信息添加到List里面  
+            {
+                if (fs[i].Extension == ".ini")   //挑选出符合条件的信息  
+                {
+                    Console.WriteLine(PcPath + "\\" + fs[i].Name);
+                    //删除原来的
+                    System.IO.File.Delete(PcPath + "\\" + fs[i].Name);
+                    break;
+                }
+            }
+            //复制新的进去
+            System.IO.File.Copy(downloadPath + "\\" + IniName,
+                PcPath + "\\" + IniName, true);
+
         }
 
         //取消更新

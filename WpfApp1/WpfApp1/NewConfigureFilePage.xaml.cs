@@ -54,7 +54,7 @@ namespace WpfApp1
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.InitialDirectory = System.IO.Directory.GetCurrentDirectory() + "\\Server";
+            ofd.InitialDirectory = System.IO.Directory.GetCurrentDirectory() + "\\ServerFile";
             if (ofd.ShowDialog() == true)
             {
                 infos.Add(new Info { path = ofd.FileName, way = ""});
