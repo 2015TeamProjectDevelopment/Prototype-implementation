@@ -50,7 +50,17 @@ namespace WpfApp1
         {
             try
             {
-                System.Net.HttpWebRequest.Create(strUri).GetResponse();
+                Uri uriAddress = new Uri(strUri);
+                string localPath = uriAddress.LocalPath;
+                Console.WriteLine(localPath);
+                if (!System.IO.Directory.Exists(localPath))
+                {
+                    return false;
+                }
+                else if (strUri.StartsWith("http"))
+                {
+                    System.Net.HttpWebRequest.Create(strUri).GetResponse();
+                }
                 return true;
             }
             catch

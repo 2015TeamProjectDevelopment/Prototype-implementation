@@ -6,23 +6,11 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="UpdateUI" Height="350" Width="500">
-    <StackPanel>
-        <TextBlock xml:space="preserve" HorizontalAlignment="Left" Margin="0,0,0,20" TextWrapping="Wrap" 
-               Text="&#x000A;
-            当前软件版本：1.1.1&#x000A;
-            位置：C:\Users\Aurorayqz\Desktop &#x000A;
-            大小：26.0 MB (27,275,825 字节)&#x000A;
-            占用空间：26.0 MB (27,308,032 字节)&#x000A;
-            包含：15 个文件，0 个文件夹&#x000A;
-            配置文件哈希码(MD5码)：eonfwfnoi2e3ron3rnofnefi&#x000A;
-            上次更新时间：2018年4月‎21‎日，‏‎22:57:44&#x000A;&#x000A;
-            新软件版本：2.1.1&#x000A;
-            大小：59.2 MB (62,169,836 字节)&#x000A;
-            占用空间：59.4 MB (62,349,312 字节)&#x000A;
-            包含：110 个文件，37 个文件夹" 
+    <StackPanel x:Name="probar">
+        <TextBlock xml:space="preserve" x:Name="textblock" HorizontalAlignment="Left" Margin="60,20,20,20" TextWrapping="Wrap" 
                VerticalAlignment="Top"/>
         <ProgressBar Height="10" Margin="20,0,20,0"/>
-        <Button Content="取消" HorizontalAlignment="Left" Width="auto" Margin="60,30,0,212" Height="25" VerticalAlignment="Bottom" Click="Button_Click_cancel" RenderTransformOrigin="0.5,0.513"/>
+        <Button x:Name="cancel" Content="取消" HorizontalAlignment="Left" Width="auto" Margin="60,60,0,212" Height="25" VerticalAlignment="Bottom" Click="Button_Click_cancel" RenderTransformOrigin="0.5,0.513"/>
         
 
     </StackPanel>

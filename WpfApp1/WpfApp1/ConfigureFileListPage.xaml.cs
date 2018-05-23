@@ -37,7 +37,12 @@ namespace WpfApp1
         public void initList()
         {
             string fileDir = Environment.CurrentDirectory;
-            DirectoryInfo fileFold = new DirectoryInfo(fileDir);
+            string configureListDir = System.IO.Path.Combine(fileDir, "configureList");
+            if (!System.IO.Directory.Exists(configureListDir))
+            {
+                System.IO.Directory.CreateDirectory(configureListDir);
+            }
+            DirectoryInfo fileFold = new DirectoryInfo(configureListDir);
             FileInfo[] files = fileFold.GetFiles(); //获取指定文件夹下的所有文件
             List<ConfigList> config2 = new List<ConfigList>();
             for (int i = 0; files != null && i < files.Length; i++)  //将文件信息添加到List里面  
@@ -46,11 +51,8 @@ namespace WpfApp1
                 {
                     if (files[i].Extension == ".ini")   //挑选出符合条件的信息  
                     {
-                        //FInfo finfo = new FInfo(files[i].FullName, files[i].Name, files[i].Extension);
-                        //AddFile(finfo);
-                        ConfigList config1 = new ConfigList(files[i].Name, files[i].LastWriteTime, false, fileDir + "\\"+ files[i].Name);
+                        ConfigList config1 = new ConfigList(files[i].Name, files[i].LastWriteTime, false, configureListDir + "\\"+ files[i].Name);
                         config1.ConfigFileHashCode = config1.GetHashCode();
-
                         config2.Add(config1);
                     }
                     else
@@ -104,7 +106,7 @@ namespace WpfApp1
             Write(dir + "\\fileName.txt", player.ConfigFileName);
             string fileName = player.ConfigFileName;
             //判断文件夹是否存在，文件夹设置在哪里比较合适呢？
-            string versionFloder = System.IO.Path.Combine(dir, "versionFloder");
+            string versionFloder = System.IO.Path.Combine(dir, "versionFolder");
             if (!System.IO.Directory.Exists(versionFloder))
             {
                 System.IO.Directory.CreateDirectory(versionFloder);
@@ -117,7 +119,7 @@ namespace WpfApp1
             //复制配置文件到对应的子文件夹下
             System.IO.File.Copy(player.ConfigFilePath, subVersionPath + "\\" + fileName, true);
 
-            //复制配置文件的内容到该文件下
+            //复制选中的文件的内容到该文件下
             ObservableCollection<Info> infos = new ModifyProfile().GetFileMessage();
             for (int i = 0; i < infos.Count; i++)
             {

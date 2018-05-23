@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -29,7 +30,29 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            initTestFile();
             MainFrame.Navigate(newConfigureFilePage);
+        }
+        
+        public void initTestFile()
+        {
+            string currentdir = System.IO.Directory.GetCurrentDirectory();
+            string PCDir = System.IO.Path.Combine(currentdir, "PC");
+            string ServerDir = System.IO.Path.Combine(currentdir, "ServerFile");
+            if (!System.IO.Directory.Exists(PCDir))
+            {
+                System.IO.Directory.CreateDirectory(PCDir);
+                new FileStream(PCDir+ "\\deletefile.txt", FileMode.CreateNew);
+                new FileStream(PCDir + "\\replacefile.txt", FileMode.CreateNew);
+            }
+            if (!System.IO.Directory.Exists(ServerDir))
+            {
+                System.IO.Directory.CreateDirectory(ServerDir);
+                new FileStream(ServerDir + "\\newfile.txt", FileMode.CreateNew);
+                new FileStream(ServerDir + "\\deletefile.txt", FileMode.CreateNew);
+                new FileStream(ServerDir + "\\replacefile.txt", FileMode.CreateNew);
+            }
+
         }
 
         private void MenuItem_Click_about_us(object sender, RoutedEventArgs e)
@@ -107,7 +130,7 @@ namespace WpfApp1
 
     }
 
-    class ConfigList
+    public class ConfigList
     {
         private string configFileName;
         private System.DateTime configFileModificationTime;
@@ -148,7 +171,7 @@ namespace WpfApp1
     }
 
     //配置文件类
-    class configFile
+    public class configFile
     {
         private List<File> configFiles;
 
@@ -173,7 +196,7 @@ namespace WpfApp1
     }
 
     //文件类
-    class File
+    public class File
     {
         private String fileName;        //文件名
         private long fileSize;          //文件大小

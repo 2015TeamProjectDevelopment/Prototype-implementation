@@ -79,7 +79,12 @@ namespace WpfApp1
         {
             SaveFileDialog sfd = new SaveFileDialog();
             string currentPath = System.IO.Directory.GetCurrentDirectory();
-            sfd.InitialDirectory = @currentPath;
+            string configureListDir = System.IO.Path.Combine(currentPath, "configureList");
+            if (!System.IO.Directory.Exists(configureListDir))
+            {
+                System.IO.Directory.CreateDirectory(configureListDir);
+            }
+            sfd.InitialDirectory = configureListDir;
             //设置保存的文件的类型
             sfd.Filter = "INI配置文件|*.ini";
             if (sfd.ShowDialog() == true)
@@ -114,9 +119,14 @@ namespace WpfApp1
         {
             infos.Clear();
             string fileDir = Environment.CurrentDirectory;
-     
+            
             String fileDirResp = Read(fileDir+ "\\fileName.txt");
-            DirectoryInfo fileFold = new DirectoryInfo(fileDir);
+            string configureListDir = System.IO.Path.Combine(fileDir, "configureList");
+            if (!System.IO.Directory.Exists(configureListDir))
+            {
+                System.IO.Directory.CreateDirectory(configureListDir);
+            }
+            DirectoryInfo fileFold = new DirectoryInfo(configureListDir);
             FileInfo[] files = fileFold.GetFiles(); //获取指定文件夹下的所有文件
             this.FileNameText.Text = fileDirResp;
             for (int i = 0; files != null && i < files.Length; i++)  //将文件信息添加到List里面  
@@ -124,8 +134,7 @@ namespace WpfApp1
                 //fileDirResp = Encoding.UTF8.GetString(Encoding.Default.GetBytes(fileDirResp));
                 if (files[i].Name == fileDirResp)   //挑选出符合条件的信息  
                 {
-
-                    IniFiles ini_file_read = new IniFiles(fileDir+"\\"+fileDirResp);
+                    IniFiles ini_file_read = new IniFiles(configureListDir + "\\"+fileDirResp);
                     for(int j = 0; j < 10000; j++)
                     {
                         String tem_path = "session"+j.ToString();
