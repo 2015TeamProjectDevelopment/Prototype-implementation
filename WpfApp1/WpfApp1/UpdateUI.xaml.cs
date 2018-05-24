@@ -34,7 +34,6 @@ namespace WpfApp1
             this.cfServer = cfServer;
             showDiff();
             doUpdate();
-
         }
 
         //显示版本差异
@@ -160,11 +159,25 @@ namespace WpfApp1
                             System.IO.File.Copy(downloadPath + "\\" + tem_file_name,
                                 PcPath + "\\" + tem_file_name, true);
                         }
+                        //应该放在底部，否则会导致软件直接退出，其它操作没有进行。
+                        else if (tem_file_updateMethod == "更新本软件")
+                        {
+                            MessageBox.Show("更新完毕，软件需要重启");
+                            System.Diagnostics.Process.Start(@".\update_its.exe");
+                            UpdatePCini(PcPath, IniName);
+                            Environment.Exit(0);
+                        }
                     }
                     break;
                 }
             }
 
+            UpdatePCini(PcPath, IniName);
+
+        }
+
+        public void UpdatePCini(string PcPath, string IniName)
+        {
             //更新PC的ini
             DirectoryInfo Fold = new DirectoryInfo(PcPath);
             FileInfo[] fs = Fold.GetFiles();
@@ -181,7 +194,6 @@ namespace WpfApp1
             //复制新的进去
             System.IO.File.Copy(downloadPath + "\\" + IniName,
                 PcPath + "\\" + IniName, true);
-
         }
 
         //取消更新

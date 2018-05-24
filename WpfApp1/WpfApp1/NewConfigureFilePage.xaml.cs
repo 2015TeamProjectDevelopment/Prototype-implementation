@@ -30,6 +30,7 @@ namespace WpfApp1
             this.Add("新增");
             this.Add("替换");
             this.Add("删除");
+            this.Add("更新本软件");
         }
     }
 
