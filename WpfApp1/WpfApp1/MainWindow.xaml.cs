@@ -45,7 +45,7 @@ namespace WpfApp1
                 {
                     using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
                     {
-                        sw.WriteLine("file://" + currentPath);
+                        sw.WriteLine("file://" + currentPath +"\\Server");
                     }
                 }
             }
