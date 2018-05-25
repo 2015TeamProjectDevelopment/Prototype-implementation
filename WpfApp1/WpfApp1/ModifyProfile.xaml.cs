@@ -44,7 +44,7 @@ namespace WpfApp1
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.InitialDirectory = @"C:\";
+            ofd.InitialDirectory = System.IO.Directory.GetCurrentDirectory() + "\\Server";
             if (ofd.ShowDialog() == true)
             {
                 infos.Add(new Info { path = ofd.FileName, way = "" });
@@ -79,7 +79,7 @@ namespace WpfApp1
         {
             SaveFileDialog sfd = new SaveFileDialog();
             string currentPath = System.IO.Directory.GetCurrentDirectory();
-            string configureListDir = System.IO.Path.Combine(currentPath, "configureList");
+            string configureListDir = System.IO.Path.Combine(currentPath + "\\Server", "configureList");
             if (!System.IO.Directory.Exists(configureListDir))
             {
                 System.IO.Directory.CreateDirectory(configureListDir);
@@ -121,7 +121,7 @@ namespace WpfApp1
             string fileDir = Environment.CurrentDirectory;
             
             String fileDirResp = Read(fileDir+ "\\fileName.txt");
-            string configureListDir = System.IO.Path.Combine(fileDir, "configureList");
+            string configureListDir = System.IO.Path.Combine(fileDir + "\\Server", "configureList");
             if (!System.IO.Directory.Exists(configureListDir))
             {
                 System.IO.Directory.CreateDirectory(configureListDir);

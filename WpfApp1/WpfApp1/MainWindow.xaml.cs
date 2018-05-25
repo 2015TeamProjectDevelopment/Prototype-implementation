@@ -55,7 +55,7 @@ namespace WpfApp1
         {
             string currentdir = System.IO.Directory.GetCurrentDirectory();
             string PCDir = System.IO.Path.Combine(currentdir, "PC");
-            string ServerDir = System.IO.Path.Combine(currentdir, "ServerFile");
+            string ServerDir = System.IO.Path.Combine(currentdir, "Server");
             if (!System.IO.Directory.Exists(PCDir))
             {
                 System.IO.Directory.CreateDirectory(PCDir);
@@ -69,7 +69,6 @@ namespace WpfApp1
                 new FileStream(ServerDir + "\\deletefile.txt", FileMode.CreateNew);
                 new FileStream(ServerDir + "\\replacefile.txt", FileMode.CreateNew);
             }
-
         }
 
         private void MenuItem_Click_about_us(object sender, RoutedEventArgs e)

@@ -37,7 +37,7 @@ namespace WpfApp1
         public void initList()
         {
             string fileDir = Environment.CurrentDirectory;
-            string configureListDir = System.IO.Path.Combine(fileDir, "configureList");
+            string configureListDir = System.IO.Path.Combine(fileDir + "\\Server", "configureList");
             if (!System.IO.Directory.Exists(configureListDir))
             {
                 System.IO.Directory.CreateDirectory(configureListDir);
@@ -99,14 +99,26 @@ namespace WpfApp1
             // dir 当前路径 fileName 选中那一列的文件名 
             // versionFloder 保存配置文件夹的路径 
             //subDirName 对应配置文件生成的目录 subVersionPath 该路径，保存配置文件、复制过去的文件
-
             var btn = sender as Button;
             var player = btn.DataContext as ConfigList;
             string dir = System.IO.Directory.GetCurrentDirectory();
             Write(dir + "\\fileName.txt", player.ConfigFileName);
             string fileName = player.ConfigFileName;
+
+            //判断是否是最新版本，是的话将配置文件移动到 最新版本目录下
+            if(player.IsVersion)
+            {
+                string newestVersion = System.IO.Path.Combine(dir + "\\Server", "newestFolder");
+                if (!System.IO.Directory.Exists(newestVersion))
+                {
+                    System.IO.Directory.CreateDirectory(newestVersion);
+                }
+                DeleteFolder(newestVersion);//删除
+                System.IO.File.Copy(player.ConfigFilePath, newestVersion + "\\" + fileName, true);
+            }
+
             //判断文件夹是否存在，文件夹设置在哪里比较合适呢？
-            string versionFloder = System.IO.Path.Combine(dir, "versionFolder");
+            string versionFloder = System.IO.Path.Combine(dir + "\\Server", "versionFolder");
             if (!System.IO.Directory.Exists(versionFloder))
             {
                 System.IO.Directory.CreateDirectory(versionFloder);
@@ -131,6 +143,25 @@ namespace WpfApp1
                 }
             }
             MessageBox.Show("生成版本成功");
+        }
+
+        //删除指定目录下的文件
+        public static void DeleteFolder(string dirPath)
+        {
+            if (Directory.Exists(dirPath))
+            {
+                foreach (string content in Directory.GetFileSystemEntries(dirPath))
+                {
+                    if (Directory.Exists(content))
+                    {
+                        Directory.Delete(content, true);
+                    }
+                    else if (System.IO.File.Exists(content))
+                    {
+                        System.IO.File.Delete(content);
+                    }
+                }
+            }
         }
 
         //保存点击的文件名

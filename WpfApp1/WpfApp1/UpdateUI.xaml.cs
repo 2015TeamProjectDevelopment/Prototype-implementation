@@ -25,7 +25,7 @@ namespace WpfApp1
         private ConfigList cfPC;
         private ConfigList cfServer;
         private string downloadPath;
-        string current = System.IO.Directory.GetCurrentDirectory();
+        static string current = System.IO.Directory.GetCurrentDirectory();
         
         public UpdateUI(ConfigList cfPC, ConfigList cfServer)
         {
@@ -39,37 +39,45 @@ namespace WpfApp1
         //显示版本差异
         private void showDiff()
         {
-            String sText = "";
+            string sText = "";
+            string oldVersion = "", newVersion = "";
+            string oldHash = "", newHash = "";
+
             if(cfPC != null)
             {
                 string name = cfPC.ConfigFileName;
-                sText += "当前版本："+name.Substring(0, name.Length - 4) + "\n";
-                sText += "哈希值：" + cfPC.ConfigFileHashCode + "\n";
+                oldVersion = name.Substring(0, name.Length - 4);
+                oldHash  = cfPC.ConfigFileHashCode.ToString();
             }
-            if(cfServer != null)
+            sText += "当前版本：" + oldVersion + "\n";
+            sText += "哈希值：" + oldHash + "\n";
+            if (cfServer != null)
             {
                 string name = cfServer.ConfigFileName;
-                sText += "\n" + "新版本：" + name.Substring(0, name.Length - 4) + "\n";
-                sText += "哈希值：" + cfServer.ConfigFileHashCode + "\n";
+                newVersion =  name.Substring(0, name.Length - 4);
+                newHash = cfServer.ConfigFileHashCode.ToString();
             }
+            sText += "\n" + "新版本：" + newVersion + "\n";
+            sText += "哈希值：" + newHash + "\n";
             textblock.Text = sText;
         }
 
         //执行更新操作
         private void download()
         {
-            //下载的 源文件夹 url 和 下载后的本地文件夹名字
-            StreamReader sr = new StreamReader(current+"//url.txt", Encoding.Default);
-            String line;
+            //根据下载下来的配置文件名字 到服务器指定目录下寻找版本文件目录
+            string subFolderName = cfServer.ConfigFileName.Replace('.', '_'); //版本文件目录名字
+            StreamReader sr = new StreamReader(current + "//url.txt", Encoding.Default);
+            string line;
+            string urlPath = "";
             while ((line = sr.ReadLine()) != null)
             {
                 Uri uriAddress = new Uri(line);
-                current = uriAddress.LocalPath;
+                urlPath = uriAddress.LocalPath;
             }
-
-            string subFolderName = cfServer.ConfigFileName.Replace('.', '_'); //文件夹名字
-            string srcPath = System.IO.Path.Combine(current + "//versionFolder", subFolderName);  //源文件夹
-            Console.WriteLine(srcPath);
+            string ServerPath = System.IO.Path.Combine(urlPath, "versionFolder");
+            string srcPath = System.IO.Path.Combine(ServerPath, subFolderName);//源文件夹
+            //Console.WriteLine(srcPath);
             if (!System.IO.Directory.Exists(srcPath))
             {
                 MessageBox.Show("源文件夹不存在", "ERROR");
@@ -82,7 +90,6 @@ namespace WpfApp1
             {
                 System.IO.Directory.CreateDirectory(destPath);
             }
-
             //下载
             CopyDirectory(srcPath, destPath);
         }
@@ -109,14 +116,11 @@ namespace WpfApp1
                         System.IO.File.Copy(i.FullName, destPath + "\\" + i.Name, true);      //不是文件夹即复制文件，true表示可以覆盖同名文件
                     }
                 }
-
             }
             catch (Exception e)
             {
-                throw;
+                throw e;
             }
-
-
         }
 
         //更新操作
