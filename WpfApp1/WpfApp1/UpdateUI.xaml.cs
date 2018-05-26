@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Forms;
+
 
 namespace WpfApp1
 {
@@ -25,62 +16,56 @@ namespace WpfApp1
         private ConfigList cfPC;
         private ConfigList cfServer;
         private string downloadPath;
-        static string current = System.IO.Directory.GetCurrentDirectory();
+        string current = System.IO.Directory.GetCurrentDirectory();
         
-        public UpdateUI(ConfigList cfPC, ConfigList cfServer)
+        public UpdateUI(ConfigList cfPC, ConfigList cfServer, int _Minimum, int _Maximum)//带参数，表示进度条的范围的最小值和最大值
         {
             InitializeComponent();
+            progressBar1.Maximum = _Maximum;//设置范围最大值
+            progressBar1.Value = progressBar1.Minimum = _Minimum;//设置范围最小值
             this.cfPC = cfPC;
             this.cfServer = cfServer;
             showDiff();
-            doUpdate();
+            
         }
 
         //显示版本差异
-        private void showDiff()
+        public void showDiff()
         {
-            string sText = "";
-            string oldVersion = "", newVersion = "";
-            string oldHash = "", newHash = "";
-
+            String sText = "";
             if(cfPC != null)
             {
                 string name = cfPC.ConfigFileName;
-                oldVersion = name.Substring(0, name.Length - 4);
-                oldHash  = cfPC.ConfigFileHashCode.ToString();
+                sText += "当前版本："+name.Substring(0, name.Length - 4) + "\n";
+                sText += "哈希值：" + cfPC.ConfigFileHashCode + "\n";
             }
-            sText += "当前版本：" + oldVersion + "\n";
-            sText += "哈希值：" + oldHash + "\n";
-            if (cfServer != null)
+            if(cfServer != null)
             {
                 string name = cfServer.ConfigFileName;
-                newVersion =  name.Substring(0, name.Length - 4);
-                newHash = cfServer.ConfigFileHashCode.ToString();
+                sText += "\n" + "新版本：" + name.Substring(0, name.Length - 4) + "\n";
+                sText += "哈希值：" + cfServer.ConfigFileHashCode + "\n";
             }
-            sText += "\n" + "新版本：" + newVersion + "\n";
-            sText += "哈希值：" + newHash + "\n";
             textblock.Text = sText;
         }
 
         //执行更新操作
         private void download()
         {
-            //根据下载下来的配置文件名字 到服务器指定目录下寻找版本文件目录
-            string subFolderName = cfServer.ConfigFileName.Replace('.', '_'); //版本文件目录名字
-            StreamReader sr = new StreamReader(current + "//url.txt", Encoding.Default);
-            string line;
-            string urlPath = "";
+            //下载的 源文件夹 url 和 下载后的本地文件夹名字
+            StreamReader sr = new StreamReader(current+"//url.txt", Encoding.Default);
+            String line;
             while ((line = sr.ReadLine()) != null)
             {
                 Uri uriAddress = new Uri(line);
-                urlPath = uriAddress.LocalPath;
+                current = uriAddress.LocalPath;
             }
-            string ServerPath = System.IO.Path.Combine(urlPath, "versionFolder");
-            string srcPath = System.IO.Path.Combine(ServerPath, subFolderName);//源文件夹
-            //Console.WriteLine(srcPath);
+
+            string subFolderName = cfServer.ConfigFileName.Replace('.', '_'); //文件夹名字
+            string srcPath = System.IO.Path.Combine(current + "//versionFolder", subFolderName);  //源文件夹
+            Console.WriteLine(srcPath);
             if (!System.IO.Directory.Exists(srcPath))
             {
-                MessageBox.Show("源文件夹不存在", "ERROR");
+                System.Windows.MessageBox.Show("源文件夹不存在", "ERROR");
                 return;
             }
             string PcPath = current + "\\PC";
@@ -90,6 +75,7 @@ namespace WpfApp1
             {
                 System.IO.Directory.CreateDirectory(destPath);
             }
+
             //下载
             CopyDirectory(srcPath, destPath);
         }
@@ -116,15 +102,16 @@ namespace WpfApp1
                         System.IO.File.Copy(i.FullName, destPath + "\\" + i.Name, true);      //不是文件夹即复制文件，true表示可以覆盖同名文件
                     }
                 }
+
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
 
         //更新操作
-        private void doUpdate()
+        public void doUpdate()
         {
             download();
             //读取配置文件并进行操作
@@ -163,25 +150,12 @@ namespace WpfApp1
                             System.IO.File.Copy(downloadPath + "\\" + tem_file_name,
                                 PcPath + "\\" + tem_file_name, true);
                         }
-                        //应该放在底部，否则会导致软件直接退出，其它操作没有进行。
-                        else if (tem_file_updateMethod == "更新本软件")
-                        {
-                            MessageBox.Show("更新完毕，软件需要重启");
-                            System.Diagnostics.Process.Start(@".\update_its.exe");
-                            UpdatePCini(PcPath, IniName);
-                            Environment.Exit(0);
-                        }
+                        
                     }
                     break;
                 }
             }
 
-            UpdatePCini(PcPath, IniName);
-
-        }
-
-        public void UpdatePCini(string PcPath, string IniName)
-        {
             //更新PC的ini
             DirectoryInfo Fold = new DirectoryInfo(PcPath);
             FileInfo[] fs = Fold.GetFiles();
@@ -198,12 +172,24 @@ namespace WpfApp1
             //复制新的进去
             System.IO.File.Copy(downloadPath + "\\" + IniName,
                 PcPath + "\\" + IniName, true);
+
         }
 
         //取消更新
         private void Button_Click_cancel(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        public void setPos(int value, int total)//设置进度条当前进度值
+        {
+            if (value < total)//如果值有效
+
+            {
+                progressBar1.Value = value;//设置进度值
+                label1.Content = (value * 100 / total).ToString() + "%";//显示百分比
+            }
+            System.Windows.Forms.Application.DoEvents();//重点，必须加上，否则父子窗体都假死
         }
     }
 }

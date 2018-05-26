@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace WpfApp1
 {
@@ -49,11 +50,18 @@ namespace WpfApp1
             // 如果文件hash码不同，进行更新
             if(PCIniHash != ServerIniHash)
             {
-                UpdateUI SWSetting = new UpdateUI(cfPC, cfServer);
+                UpdateUI SWSetting = new UpdateUI(cfPC, cfServer,0, 100);
                 //在父窗口中间显示
                 SWSetting.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 SWSetting.Title = "软件更新";
-                SWSetting.ShowDialog();
+                SWSetting.Show();
+                for (int i = 0; i < 100; i++)
+                {
+                    SWSetting.setPos(i,100);//设置进度条位置
+                    Thread.Sleep(100);//睡眠时间为100
+                }
+                SWSetting.doUpdate();
+                SWSetting.Close();//关闭窗体
             }
             // 否则 不更新
             else
@@ -86,50 +94,43 @@ namespace WpfApp1
             return null;
         }
 
-        // 获取Server的 ini 文件 通过url找
+        // 获取Server的 ini 文件
         private ConfigList GetServerIni()
         {
-            string current = System.IO.Directory.GetCurrentDirectory();
-            StreamReader sr = new StreamReader(current + "//url.txt", Encoding.Default);
-            string line;
-            string urlPath = "";
-            while ((line = sr.ReadLine()) != null)
+            string fileDir = Environment.CurrentDirectory;
+            string configureListDir = System.IO.Path.Combine(fileDir, "configureList");
+            DirectoryInfo fileFold = new DirectoryInfo(configureListDir);
+            FileInfo[] files = fileFold.GetFiles(); //获取指定文件夹下的所有文件
+            List<ConfigList> config2 = new List<ConfigList>();
+            //将文件信息添加到List里面  
+            for (int i = 0; files != null && i < files.Length; i++)  
             {
-                Uri uriAddress = new Uri(line);
-                urlPath = uriAddress.LocalPath;
-            }
-            if (Directory.Exists(urlPath))
-            {
-                string path = urlPath + "\\newestFolder";
-                if (!System.IO.Directory.Exists(path))
+                try
                 {
-                    System.IO.Directory.CreateDirectory(path);
-                }
-                DirectoryInfo fileFold = new DirectoryInfo(path);
-                FileInfo[] files = fileFold.GetFiles();
-                foreach (FileInfo content in fileFold.GetFiles())
-                {
-                    if (content.Extension == ".ini")
+                    if (files[i].Extension == ".ini")   //挑选出符合条件的信息  
                     {
-                        string tempDir = current + "\\PC\\temp";
-                        if (!System.IO.Directory.Exists(tempDir))
-                        {
-                            System.IO.Directory.CreateDirectory(tempDir);
-                        }
-                        ConfigureFileListPage.DeleteFolder(tempDir);
-                        //存在 下载（复制）下来进行比较
-                        System.IO.File.Copy(content.FullName, tempDir + "\\" + content.Name
-                                , true);
-                        ConfigList config1 = new ConfigList(content.Name, content.LastWriteTime, false, tempDir + "\\" + content.Name);
+                        ConfigList config1 = new ConfigList(files[i].Name, files[i].LastWriteTime, false, configureListDir + "\\" + files[i].Name);
                         config1.ConfigFileHashCode = config1.GetHashCode();
-                        //删除temp文件夹
-                        Directory.Delete(tempDir, true);
-                        return config1;
-                        
+                        config2.Add(config1);
+                    }
+                    else
+                    {
+                        continue;
                     }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
             }
-            return null;
+            config2.Sort((x, y) => { return y.ConfigFileModificationTime.CompareTo(x.ConfigFileModificationTime); });
+            if (config2.Count > 0)
+                return config2[0];
+            else
+                return null;
         }
+
+
     }
 }
